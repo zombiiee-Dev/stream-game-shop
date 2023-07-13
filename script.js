@@ -16,9 +16,16 @@ console.log("search",search);
 const gameInfo = document.querySelector(".game-wrapper");
 
 // TODO
-// hoan thanh search feature
+// hoan thanh search feature 
+// them 1 the loai goi la search
+// khi input xong enter thi url = genres={search}&q={input.value}
+// khi ma ngta search thi => function renderSearch => forEach nhu renderGame
+
 // khi gõ "dota" và bấm nút search => index.html?q=dota
 // khi user enter địa chỉ này index.html?q=dota => giá trị khởi đầu của thẻ input search sẽ là "dota"
+
+
+
 
 
 const getInfoGame = async (
@@ -107,6 +114,7 @@ const renderGenresList = async() =>{
     x.setAttribute("href",`index.html?genres=${genres.name}`); // ?key=value, setAttribute("id", `?id=${id})`
     genresList.appendChild(x);
   })
+
 }
 
 renderGenresList();
@@ -148,54 +156,50 @@ const renderGenres = async(genres)=>{
     });      
 }
 
-// const genresMenu = document.querySelector(".genres");
-// const valueClick = genresMenu.addEventListener("click", (e) => {
-//   const click = e.target;
-//   const value = e.target.innerText.toLowerCase();
-//   if(click.id==="game-action"){changeMenu(click);} 
-//   if(click.id==="game-casual"){changeMenu(click);} 
-//   if(click.id==="game-Strategy"){changeMenu(click);} 
-//   if(click.id==="game-Adventure"){changeMenu(click);} 
-//   if(click.id==="game-RPG"){changeMenu(click);} 
-//   if(click.id==="game-Simulation"){changeMenu(click);}
-//   if(click.id==="game-Free To Play"){changeMenu(click);}    
-//   renderGenres(value);
-// });
+// const handleSearch = (input) => {
+//   if (input) {
+//     window.location.href = `index.html?q=${input}`;
+//   }
 
-// let selectedItem = null;
-// function changeMenu (click){
-//   if (selectedItem) {
-//     selectedItem.style.color = "";
-//     selectedItem.style.fontSize = "1.2rem";
-//   }
-//   if (selectedItem === click) {
-//     selectedItem = null;
-//   } else {
-//     click.style.color = "#f56a1e";
-//     click.style.fontSize = "1.8rem";
-//     selectedItem = click;
-//   }
-// }
+// }; 
+const getSearch = async(search)=>{
+ try {
+  let urlSearch = `https://steam-api-mass.onrender.com/games?q=${search}`;
+  const response = await fetch(urlSearch);
+    if (response.ok) {
+      const data = await response.json();
+      // console.log("dataSearch",data);
+      return data;
   
-const handleSearch = (input) => {
-  if (input) {
-    window.location.href = `index.html?genres=${input}&q=${input}`;
-  }
-}; 
+ }} catch (error) {
+  console.log("renderSearch",error);
+ }
+}
 
+const renderSearch = async (search) => {
+  try {
+    const dataSearch = await getSearch(search);
+    if(dataSearch) {
+      window.location.href = `index.html?q=${search}`;
+      }
+    } catch (error) {
+    console.log(error);
+  }
+};
 
 const searchForm = document.querySelector("#searchForm");   
 const searchInput = document.querySelector(".search");  
 searchInput.addEventListener("submit",(e)=>{
     e.preventDefault();
     let inputSearch = e.target.searchForm.value;
-    handleSearch(inputSearch);
+     renderSearch(inputSearch);
     })
 const searchImg = document.querySelector("#search-img");
   searchImg.addEventListener("click",(e)=>{
   e.preventDefault();
-  let inputSearch = searchInput.value;
-  handleSearch(inputSearch);
+  let inputSearch = searchForm.value;
+  console.log(inputSearch);
+     renderSearch(inputSearch);
 })
 
 

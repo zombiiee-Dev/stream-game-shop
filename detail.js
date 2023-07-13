@@ -135,27 +135,65 @@ const renderGenresList = async() =>{
 
 renderGenresList();
 
-const handleSearch = (inputSearch) => {
-  if (inputSearch) {
-    window.location.href = `index.html?genres=${inputSearch}`;
-  }
-};  
-const searchForm = document.querySelector("#searchform");   
-const searchInput = document.querySelector("#store_search");  
-searchInput.addEventListener("submit",(e)=>{
-    e.preventDefault();
-    let inputSearch = e.target.searchform.value;
-    console.log(inputSearch);
-    handleSearch(inputSearch);
-    })
+// const handleSearch = (inputSearch) => {
+//   if (inputSearch) {
+//     window.location.href = `index.html?genres=${inputSearch}`;
+//   }
+// };  
+// const searchForm = document.querySelector("#searchform");   
+// const searchInput = document.querySelector("#store_search");  
+// searchInput.addEventListener("submit",(e)=>{
+//     e.preventDefault();
+//     let inputSearch = e.target.searchform.value;
+//     console.log(inputSearch);
+//     handleSearch(inputSearch);
+//     })
 
-const searchImg = document.querySelector("#search-img-detail");
+// const searchImg = document.querySelector("#search-img-detail");
+//     searchImg.addEventListener("click",(e)=>{
+//     e.preventDefault();
+//     let inputSearch = searchInput.value;
+//     handleSearch(inputSearch);
+//   })
+  
+
+const getSearch = async(search)=>{
+  try {
+   let urlSearch = `https://steam-api-mass.onrender.com/games?q=${search}`;
+   const response = await fetch(urlSearch);
+     if (response.ok) {
+       const data = await response.json();
+       // console.log("dataSearch",data);
+       return data;
+   
+  }} catch (error) {
+   console.log("renderSearch",error);
+  }
+ }  
+const renderSearch = async (search) => {
+    try {
+      const dataSearch = await getSearch(search);
+      if(dataSearch) {
+        window.location.href = `index.html?q=${search}`;
+        }
+      } catch (error) {
+      console.log(error);
+    }
+  };
+  
+  const searchForm = document.querySelector("#searchform");   
+  const searchInput = document.querySelector("#store_search");  
+  searchInput.addEventListener("submit",(e)=>{
+      e.preventDefault();
+      let inputSearch = e.target.searchForm.value;
+       renderSearch(inputSearch);
+      })
+      const searchImg = document.querySelector("#search-img-detail");
     searchImg.addEventListener("click",(e)=>{
     e.preventDefault();
-    let inputSearch = searchInput.value;
-    handleSearch(inputSearch);
+    let inputSearch = searchForm.value;
+       renderSearch(inputSearch);
   })
-  
 
 
 

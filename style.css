@@ -274,6 +274,12 @@ main #store_search .category a {
   height: auto;
       
 }
+.titleSearch{
+  color: white;
+  padding-top: 600px;
+  margin-top: 50px;
+  font-size: 600px;
+}
 .img_detail{
   display: flex;
   justify-content: space-between;
