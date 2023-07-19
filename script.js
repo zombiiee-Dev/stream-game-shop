@@ -156,29 +156,37 @@ const renderGenres = async(genres)=>{
     });      
 }
 
-// const handleSearch = (input) => {
-//   if (input) {
-//     window.location.href = `index.html?q=${input}`;
-//   }
 
 // }; 
-const getSearch = async(search)=>{
- try {
-  let urlSearch = `https://steam-api-mass.onrender.com/games?q=${search}`;
-  const response = await fetch(urlSearch);
-    if (response.ok) {
-      const data = await response.json();
-      // console.log("dataSearch",data);
-      return data;
+// const getSearch = async(search)=>{
+//  try {
+//   let urlSearch = `https://steam-api-mass.onrender.com/games?q=${search}`;
+//   const response = await fetch(urlSearch);
+//     if (response.ok) {
+//       const data = await response.json();
+//       // console.log("dataSearch",data);
+//       return data;
   
- }} catch (error) {
-  console.log("renderSearch",error);
- }
-}
+//  }} catch (error) {
+//   console.log("renderSearch",error);
+//  }
+// }
+
+// const renderSearch = async (search) => {
+//   try {
+//     const dataSearch = await getSearch(search);
+//     if(dataSearch) {
+//       window.location.href = `index.html?q=${search}`;
+//       }
+//     } catch (error) {
+//     console.log(error);
+//   }
+// };
 
 const renderSearch = async (search) => {
   try {
-    const dataSearch = await getSearch(search);
+    const dataSearch = await getInfoGame(search);
+    console.log("abcvd",dataSearch);
     if(dataSearch) {
       window.location.href = `index.html?q=${search}`;
       }
@@ -202,4 +210,33 @@ const searchImg = document.querySelector("#search-img");
      renderSearch(inputSearch);
 })
 
+const pageNumber = document.querySelector(".pageNumber");
+const buttonPrevious = document.querySelector(".previousPage").addEventListener("click",(e)=>{
+    previousPage();
+});
+const buttonNext = document.querySelector(".nextPage").addEventListener("click",(e)=>{
+    nextPage();
+  }
+);
+
+const previousPage = () => {
+   
+    if (page > 1) {
+      page--;
+      pageNumber.textContent=page;
+      getAllGame(search, genres, page);
+      renderAllGame();
+    }
+  };
+const nextPage = () => {
+   
+    page++;
+    pageNumber.textContent=page;
+    getAllGame(search, genres, page);
+    renderAllGame();
+  };
+  
+
+//responsive
+//
 

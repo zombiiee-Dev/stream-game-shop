@@ -59,7 +59,7 @@ const renderDetail = async() =>{
         console.log(gameData.data);
         if (!display) return;
         display.innerHTML = "";
-        displayTitle.innerHTML = gameData.data.genres[0];
+        displayTitle.textContent = gameData.data.genres[0];
   
     const newDiv = document.createElement("div");
     newDiv.innerHTML = `<div class="showing_game show_detail">
